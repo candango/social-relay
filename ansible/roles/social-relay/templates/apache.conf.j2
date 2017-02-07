@@ -1,42 +1,39 @@
 <VirtualHost *:80>
-    ServerName {{ hostname }}
-    ServerAlias www.{{ hostname }}
-    RedirectPermanent / https://{{ hostname }}/
+    ServerName {{ socialrelay_hostname }}
+    ServerAlias www.{{ socialrelay_hostname }}
+
+{% if socialrelay_https %}
+    RedirectPermanent / https://{{ socialrelay_hostname }}/
 </VirtualHost>
 
 <VirtualHost *:443>
-    ServerName {{ hostname }}
-    ServerAlias www.{{ hostname }}
+    ServerName {{ socialrelay_hostname }}
+    ServerAlias www.{{ socialrelay_hostname }}
+{% endif %}
+    ServerAdmin webmaster@{{ socialrelay_hostname }}
 
-    ServerAdmin webmaster@{{ hostname }}
+    Alias /robots.txt {{ socialrelay_web_root }}/robots.txt
+    Alias /favicon.ico {{ socialrelay_web_root }}/favicon.ico
+    Alias /static {{ socialrelay_web_root }}
 
-    DocumentRoot {{ web_root }}
-
-    Alias /robots.txt {{ web_root }}/robots.txt
-    Alias /favicon.ico {{ web_root }}/favicon.ico
-
-    <Directory {{ web_root }}>
+    <Directory {{ socialrelay_web_root }}>
         Require all granted
         Options -MultiViews -Indexes
     </Directory>
 
-    WSGIDaemonProcess socialrelay user=socialrelay group=socialrelay threads=5 python-path=/home/socialrelay/socialrelay:/home/socialrelay/venv2/lib/python2.7/site-packages
-    WSGIScriptAlias / /home/socialrelay/socialrelay/socialrelay.wsgi
+    ProxyPass /static !
+    ProxyPass / uwsgi://127.0.0.1:3039/
 
-    <Directory /home/socialrelay/socialrelay>
-        <Files socialrelay.wsgi>
-            Require all granted
-        </Files>
-        WSGIProcessGroup socialrelay
-        WSGIApplicationGroup %{GLOBAL}
-        WSGIScriptReloading On
-        WSGIPassAuthorization On
-        Order deny,allow
-        Allow from all
-    </Directory>
-
+{% if socialrelay_https %}
     SSLEngine on
-    SSLCertificateFile /etc/ssl/certs/{{ hostname }}.crt
-    SSLCertificateKeyFile /etc/ssl/private/{{ hostname }}.key
-    SSLCertificateChainFile /etc/ssl/certs/{{ hostname }}.chain.pem
+    {% if socialrelay_letsencrypt %}
+        SSLCertificateFile /etc/letsencrypt/live/{{ socialrelay_hostname }}/cert.pem
+        SSLCertificateKeyFile /etc/letsencrypt/live/{{ socialrelay_hostname }}/privkey.pem
+        SSLCertificateChainFile /etc/letsencrypt/live/{{ socialrelay_hostname }}/chain.pem
+    {% else %}
+        SSLCertificateFile /etc/ssl/certs/{{ socialrelay_hostname }}.crt
+        SSLCertificateKeyFile /etc/ssl/private/{{ socialrelay_hostname }}.key
+        SSLCertificateChainFile /etc/ssl/certs/{{ socialrelay_hostname }}.chain.pem
+    {% endif %}
+{% endif %}
 </VirtualHost>

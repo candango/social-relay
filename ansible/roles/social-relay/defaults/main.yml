@@ -1,0 +1,41 @@
+---
+socialrelay_database_name: socialrelay
+socialrelay_database_user: socialrelay
+#socialrelay_database_password: set me
+socialrelay_database_host: 127.0.0.1
+socialrelay_hostname: mysocialrelay.me
+socialrelay_redis_db: 0
+socialrelay_redis_host: localhost
+socialrelay_redis_port: 6379
+socialrelay_relay_guid:
+socialrelay_rq_workers: 5
+socialrelay_secret_key:
+socialrelay_web_root: /home/socialrelay/socialrelay/social_relay/static
+socialrelay_version: master
+
+# Keep true to use https
+socialrelay_https: true
+
+# The following if true will point Apache config to letsencrypt paths.
+# Actual certs should be installed separately by for example jaywink/ansible-letsencrypt.
+socialrelay_letsencrypt: true
+
+# If the above is false, certs can be given here directly.
+socialrelay_ssl_cert: |
+    -----BEGIN CERTIFICATE-----
+    MIIGojdfowjhefihiiiiiiiiiiiiiiiiiiiiiiiiiqwfqwqdqwkmionmjmodwwJJ
+    ...
+    0p+E+OzdV9ugka6drW3vwSIxO8mhwHGDwaB+p/RDfgWI40clKu8=
+    -----END CERTIFICATE-----
+socialrelay_ssl_key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEpAIBAdfcmewiomoiwqeodiwqojdjwiojoxcjowjiqjxowqjOCJlYPPIbP1kG
+    ...
+    R0fGN9FlmmisBb6wrLX4RkRnB926g43pxJJv9gI4WCxQQF8MzSratw==
+    -----END RSA PRIVATE KEY-----
+socialrelay_ssl_chain: |
+    -----BEGIN CERTIFICATE-----
+    MIIFgregregrgregrerIHFxU9nqs/vzANBgkqhkiG9w0BAQsFADB9MQswCQYDVQQG
+    ...
+    gGgreggregtf0s+bA==
+    -----END CERTIFICATE-----

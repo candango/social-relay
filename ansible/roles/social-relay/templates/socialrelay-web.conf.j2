@@ -1,4 +1,4 @@
-description "socialrelay worker"
+description "socialrelay web"
 setuid socialrelay
 setgid socialrelay
 start on runlevel [2345]
@@ -9,5 +9,4 @@ respawn
 env PYTHONPATH="/home/socialrelay/socialrelay"
 
 chdir /home/socialrelay/socialrelay
-exec /home/socialrelay/venv/bin/python -m runworker receive
-{#exec /home/socialrelay/venv/bin/rqworker receive#}
+exec /home/socialrelay/venv/bin/uwsgi --die-on-term /home/socialrelay/socialrelay.ini

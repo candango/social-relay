@@ -1,15 +1,15 @@
 DEBUG = False
-SECRET_KEY = '{{ secret_key }}'
+SECRET_KEY = '{{ socialrelay_secret_key }}'
 
-REDIS_DB = 0
-REDIS_PORT = 6379
-REDIS_HOST = 'localhost'
+REDIS_DB = {{ socialrelay_redis_db }}
+REDIS_PORT = {{ socialrelay_redis_port }}
+REDIS_HOST = '{{ socialrelay_redis_host }}'
 
 # Change this to real domain
-SERVER_HOST = "https://{{ hostname }}"
+SERVER_HOST = "https://{{ socialrelay_hostname }}"
 
 # You MUST generate a unique GUID for the relay user. This MUST be 32 chars long.
-RELAY_GUID = "{{ relay_guid }}"
+RELAY_GUID = "{{ socialrelay_relay_guid }}"
 
 ALWAYS_FORWARD_TO_HOSTS = []
 
@@ -21,3 +21,9 @@ LOG_TO_CONSOLE = True
 # You *must* set these.
 RQ_DASHBOARD_USERNAME = "admin"
 RQ_DASHBOARD_PASSWORD = "admin"
+
+DATABASE_TYPE = 'postgresql'
+DATABASE_NAME = "{{ socialrelay_database_name }}"
+DATABASE_USER = "{{ socialrelay_database_user }}"
+DATABASE_PASSWORD = "{{ socialrelay_database_password }}"
+DATABASE_HOST = "{{ socialrelay_database_host }}"

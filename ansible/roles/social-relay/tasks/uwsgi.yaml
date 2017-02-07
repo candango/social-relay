@@ -1,0 +1,6 @@
+---
+- name: uWSGI ini file
+  template: src=socialrelay.ini dest=/home/socialrelay/socialrelay.ini
+  become_user: socialrelay
+  notify:
+    - restart web
